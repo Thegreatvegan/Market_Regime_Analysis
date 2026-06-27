@@ -47,14 +47,37 @@ def _inject_styles() -> None:
         """
         <style>
         .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+
         div[data-testid="stMetric"] {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background-color: var(--secondary-background-color);
+            border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 10px;
             padding: 0.75rem 1rem;
         }
-        .app-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
-        .app-subtitle { color: #64748b; margin-bottom: 1.5rem; }
+
+        div[data-testid="stMetric"] label,
+        div[data-testid="stMetric"] [data-testid="stMetricLabel"],
+        div[data-testid="stMetric"] [data-testid="stMetricValue"],
+        div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+            color: var(--text-color) !important;
+        }
+
+        div[data-testid="stMetric"] [data-testid="stMetricValue"] {
+            font-weight: 600;
+        }
+
+        .app-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-color);
+        }
+
+        .app-subtitle {
+            color: var(--text-color);
+            opacity: 0.72;
+            margin-bottom: 1.5rem;
+        }
         </style>
         """,
         unsafe_allow_html=True,
