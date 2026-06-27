@@ -13,6 +13,14 @@ python -m streamlit run app.py
 > **Windows note:** If `streamlit` is not recognized, use `python -m streamlit run app.py` instead.
 > Pip often installs scripts to a folder that is not on your PATH.
 
+## Deploy on Streamlit Community Cloud
+
+1. Push this repo to GitHub.
+2. Deploy at [share.streamlit.io](https://share.streamlit.io) with main file `app.py`.
+3. **Important:** In **Advanced settings**, set **Python version to 3.12** (not 3.14).
+   `hmmlearn` uses compiled extensions that are not yet available on Python 3.14.
+4. If HMM still fails, KMeans and GMM will work; redeploy with Python 3.12 to enable HMM.
+
 ## Project structure
 
 ```

@@ -16,7 +16,7 @@ if str(ROOT) not in sys.path:
 from src.backtest import regime_distribution, run_backtest
 from src.data import download_ohlcv
 from src.features import FEATURE_COLUMNS, compute_features, standardize_features
-from src.models import ModelName, fit_regime_model
+from src.models import AVAILABLE_MODELS, HMM_AVAILABLE, ModelName, fit_regime_model
 from src.plots import (
     cluster_stats_bar,
     drawdown_chart,
@@ -93,7 +93,14 @@ def _render_sidebar() -> tuple[str, date, date, ModelName]:
         start = st.date_input("Start", value=DEFAULT_START)
     with col2:
         end = st.date_input("End", value=DEFAULT_END)
-    model_name = st.sidebar.selectbox("Regime Model", MODELS, index=2)
+    default_model_idx = MODELS.index("HMM") if "HMM" in MODELS else len(MODELS) - 1
+    model_name = st.sidebar.selectbox("Regime Model", MODELS, index=default_model_idx)
+
+    if not HMM_AVAILABLE:
+        st.sidebar.warning(
+            "HMM is disabled: hmmlearn is not compatible with this Python version. "
+            "Use KMeans or GMM, or redeploy on Streamlit Cloud with **Python 3.12**."
+        )
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(

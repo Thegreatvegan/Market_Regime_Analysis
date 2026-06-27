@@ -7,11 +7,21 @@ from typing import Literal
 
 import numpy as np
 import pandas as pd
-from hmmlearn.hmm import GaussianHMM
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 
+HMM_AVAILABLE = False
+HMM_IMPORT_ERROR: str | None = None
+
+try:
+    from hmmlearn.hmm import GaussianHMM
+
+    HMM_AVAILABLE = True
+except ImportError as exc:
+    HMM_IMPORT_ERROR = str(exc)
+
 ModelName = Literal["KMeans", "GMM", "HMM"]
+AVAILABLE_MODELS: list[ModelName] = ["KMeans", "GMM"] + (["HMM"] if HMM_AVAILABLE else [])
 
 N_REGIMES = 4
 RANDOM_STATE = 42
@@ -45,6 +55,12 @@ def _fit_gmm(X: np.ndarray) -> np.ndarray:
 
 
 def _fit_hmm(X: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    if not HMM_AVAILABLE:
+        raise ImportError(
+            "hmmlearn is not available in this environment "
+            f"({HMM_IMPORT_ERROR}). On Streamlit Cloud, redeploy with Python 3.12."
+        )
+
     model = GaussianHMM(
         n_components=N_REGIMES,
         covariance_type="full",
