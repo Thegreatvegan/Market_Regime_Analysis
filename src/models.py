@@ -17,7 +17,7 @@ try:
     from hmmlearn.hmm import GaussianHMM
 
     HMM_AVAILABLE = True
-except ImportError as exc:
+except Exception as exc:
     HMM_IMPORT_ERROR = str(exc)
 
 ModelName = Literal["KMeans", "GMM", "HMM"]
